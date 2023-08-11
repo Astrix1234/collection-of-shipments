@@ -29,6 +29,7 @@ body {
 .comment {
     margin-top: 10px;
     font-size: 14px;
+    text-align: center;
 }
 
 .btn-start,
@@ -55,6 +56,11 @@ body {
     background-color: rgb(255, 179, 179);
 }
 
+.btn-submit:disabled:hover,
+.btn-submit:disabled:focus {
+    cursor: default;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -74,11 +80,101 @@ input {
     text-align: center;
 }
 
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"]::-ms-clear {
+    display: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .inputs {
     display: flex;
-    justify-content: space-between;
     margin-top: 80px;
     margin-bottom: 30px;
     gap: 20px;
 
+}
+
+.is-hidden {
+    display: none;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+    transition-property: visibility, opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.is-hidden-modal {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+}
+
+.modal {
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(108, 108, 108);
+    cursor: auto;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.receipt {
+
+    font-size: 18px;
+    text-align: center;
+}
+
+.comment-receipt {
+
+    font-size: 14px;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-thats-all,
+.btn-take-another {
+
+    border: none;
+    background-color: red;
+    padding: 10px 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-thats-all:hover,
+.btn-thats-all:focus,
+.btn-take-another:hover,
+.btn-take-another:focus {
+    background-color: rgb(252, 91, 91);
 }
