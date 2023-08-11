@@ -90,6 +90,7 @@ const goStepZero = () => {
 const goStepOneOnceAgain = () => {
   modal.classList.add('is-hidden-modal');
   goStepOne();
+  doValidationForButton();
 };
 
 btnThatsAll.addEventListener('click', goStepZero);
