@@ -11,7 +11,11 @@ const codeInput = document.querySelector('#user_code');
 
 const modal = document.querySelector('.backdrop');
 
+const btnThatsAll = document.querySelector('.btn-thats-all');
+const btnTakeAnother = document.querySelector('.btn-take-another');
+
 const goStepOne = () => {
+  form.reset();
   form.classList.remove('is-hidden');
   btnStart.classList.add('is-hidden');
 };
@@ -64,7 +68,9 @@ const goStepTwo = evt => {
       if (shouldResolve) {
         resolve();
       } else {
-        reject('Niestety nie znaleźliśmy paczki o takim numerze kodu');
+        reject(
+          'Niestety nie znaleźliśmy paczki o takim numerze kodu lub dla takiego numeru telefonu'
+        );
       }
     }, 1000);
   });
@@ -75,3 +81,17 @@ const goStepTwo = evt => {
 };
 
 form.addEventListener('submit', goStepTwo);
+
+const goStepZero = () => {
+  modal.classList.add('is-hidden-modal');
+  form.classList.add('is-hidden');
+  btnStart.classList.remove('is-hidden');
+};
+
+const goStepOneOnceAgain = () => {
+  modal.classList.add('is-hidden-modal');
+  goStepOne();
+};
+
+btnThatsAll.addEventListener('click', goStepZero);
+btnTakeAnother.addEventListener('click', goStepOneOnceAgain);
