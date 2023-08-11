@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-'use strict';
+('use strict');
 
 const btnStart = document.querySelector('.btn-start');
 const form = document.querySelector('form');
@@ -39,6 +38,7 @@ const doValidationForPhone = () => {
   if (phoneInput.value.length !== 9) {
     phoneInput.style.borderColor = 'red';
     Notiflix.Notify.failure('Proszę wpisać 9 cyfr');
+    alert('Proszę wpisać 9 cyfr');
   } else {
     phoneInput.style.borderColor = 'grey';
   }
@@ -47,6 +47,7 @@ const doValidationForCode = () => {
   if (codeInput.value.length !== 4) {
     codeInput.style.borderColor = 'red';
     Notiflix.Notify.failure('Proszę wpisać 4 cyfry');
+    alert('Proszę wpisać 4 cyfry');
   } else {
     codeInput.style.borderColor = 'grey';
   }
@@ -75,9 +76,10 @@ const goStepTwo = evt => {
     }, 1000);
   });
 
-  sendFormPromise
-    .then(toggleClassModal)
-    .catch(error => Notiflix.Notify.failure(error));
+  sendFormPromise.then(toggleClassModal).catch(error => {
+    Notiflix.Notify.failure(error);
+    alert(error);
+  });
 };
 
 form.addEventListener('submit', goStepTwo);
@@ -91,9 +93,6 @@ const goStepZero = () => {
 const goStepOneOnceAgain = () => {
   modal.classList.add('is-hidden-modal');
   goStepOne();
-  doValidationForButton();
-  doValidationForCode();
-  doValidationForPhone();
 };
 
 btnThatsAll.addEventListener('click', goStepZero);
