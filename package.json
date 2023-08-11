@@ -1,8 +1,5 @@
 {
   "devDependencies": {
     "eslint": "^8.46.0"
-  },
-  "dependencies": {
-    "notiflix": "^3.2.6"
   }
 }

@@ -37,7 +37,6 @@ codeInput.addEventListener('input', doValidationForButton);
 const doValidationForPhone = () => {
   if (phoneInput.value.length !== 9) {
     phoneInput.style.borderColor = 'red';
-    Notiflix.Notify.failure('Proszę wpisać 9 cyfr');
     alert('Proszę wpisać 9 cyfr');
   } else {
     phoneInput.style.borderColor = 'grey';
@@ -46,7 +45,6 @@ const doValidationForPhone = () => {
 const doValidationForCode = () => {
   if (codeInput.value.length !== 4) {
     codeInput.style.borderColor = 'red';
-    Notiflix.Notify.failure('Proszę wpisać 4 cyfry');
     alert('Proszę wpisać 4 cyfry');
   } else {
     codeInput.style.borderColor = 'grey';
@@ -77,7 +75,6 @@ const goStepTwo = evt => {
   });
 
   sendFormPromise.then(toggleClassModal).catch(error => {
-    Notiflix.Notify.failure(error);
     alert(error);
   });
 };
