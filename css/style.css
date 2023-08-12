@@ -145,13 +145,12 @@ input[type="number"] {
 }
 
 .receipt {
-
+    margin-bottom: 20px;
     font-size: 18px;
     text-align: center;
 }
 
 .comment-receipt {
-
     font-size: 14px;
     text-align: center;
 }

@@ -9,11 +9,16 @@ const phoneInput = document.querySelector('#user_phone');
 const codeInput = document.querySelector('#user_code');
 
 const modal = document.querySelector('.backdrop');
+const modalComments = document.querySelector('.modal-comments');
 
 const btnThatsAll = document.querySelector('.btn-thats-all');
 const btnTakeAnother = document.querySelector('.btn-take-another');
 
+let timeStart;
+let timeEnd;
+
 const goStepOne = () => {
+  timeStart = new Date().getTime();
   form.reset();
   form.classList.remove('is-hidden');
   btnStart.classList.add('is-hidden');
@@ -56,20 +61,46 @@ codeInput.addEventListener('blur', doValidationForCode);
 
 const toggleClassModal = () => {
   modal.classList.remove('is-hidden-modal');
+  timeEnd = new Date().getTime();
+  const differenceTime = (timeEnd - timeStart) / 1000;
+  modalComments.innerHTML = '';
+  const modalText = `<p class="receipt">Paczka odebrana!</p>
+      <p class="comment-receipt">Zrobiłeś to w czasie ${differenceTime} sekund! Czy możemy zrobić dla Ciebie coś jeszcze?</p>`;
+  modalComments.innerHTML = modalText;
 };
+
+let data = [];
+
+fetch('./data.json')
+  .then(response => response.json())
+  .then(jsonData => {
+    data = jsonData;
+  })
+  .catch(error => {
+    console.log('Wystąpił błąd ładowania danych', error);
+  });
 
 const goStepTwo = evt => {
   evt.preventDefault();
 
   const sendFormPromise = new Promise((resolve, reject) => {
     setTimeout(() => {
-      const shouldResolve = Math.random() > 0.3;
-      if (shouldResolve) {
-        resolve();
+      const matchingEntrance = data.find(
+        entrance =>
+          entrance.phone === phoneInput.value &&
+          entrance.code === codeInput.value
+      );
+
+      if (!matchingEntrance) {
+        if (data.some(entrance => entrance.phone === phoneInput.value)) {
+          reject('Niepoprawny kod');
+        } else if (data.some(entrance => entrance.code === codeInput.value)) {
+          reject('Nie ma paczki zarejestrowanej na ten numer');
+        } else {
+          reject('Nie ma paczki zarejestrowanej na ten numer');
+        }
       } else {
-        reject(
-          'Niestety nie znaleźliśmy paczki o takim numerze kodu lub dla takiego numeru telefonu'
-        );
+        resolve();
       }
     }, 1000);
   });
