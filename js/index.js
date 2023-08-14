@@ -9,7 +9,7 @@ const phoneInput = document.querySelector('#user_phone');
 const codeInput = document.querySelector('#user_code');
 
 const modal = document.querySelector('.backdrop');
-const modalComments = document.querySelector('.modal-comments');
+const timeDifference = document.querySelector('.time-difference');
 
 const btnThatsAll = document.querySelector('.btn-thats-all');
 const btnTakeAnother = document.querySelector('.btn-take-another');
@@ -24,8 +24,6 @@ const goStepOne = () => {
   btnStart.classList.add('is-hidden');
 };
 
-btnStart.addEventListener('click', goStepOne);
-
 btnSubmit.disabled = true;
 
 const doValidationForButton = () => {
@@ -36,37 +34,20 @@ const doValidationForButton = () => {
   }
 };
 
-phoneInput.addEventListener('input', doValidationForButton);
-codeInput.addEventListener('input', doValidationForButton);
-
-const doValidationForPhone = () => {
-  if (phoneInput.value.length !== 9) {
-    phoneInput.style.borderColor = 'red';
-    alert('Proszę wpisać 9 cyfr');
+const doValidationLength = (inputElement, expectedLength) => {
+  if (inputElement.value.length !== expectedLength) {
+    inputElement.style.borderColor = 'red';
+    alert(`Proszę wpisać ${expectedLength} cyfr`);
   } else {
-    phoneInput.style.borderColor = 'grey';
+    inputElement.style.borderColor = 'grey';
   }
 };
-const doValidationForCode = () => {
-  if (codeInput.value.length !== 4) {
-    codeInput.style.borderColor = 'red';
-    alert('Proszę wpisać 4 cyfry');
-  } else {
-    codeInput.style.borderColor = 'grey';
-  }
-};
-
-phoneInput.addEventListener('blur', doValidationForPhone);
-codeInput.addEventListener('blur', doValidationForCode);
 
 const toggleClassModal = () => {
   modal.classList.remove('is-hidden-modal');
   timeEnd = new Date().getTime();
   const differenceTime = (timeEnd - timeStart) / 1000;
-  modalComments.innerHTML = '';
-  const modalText = `<p class="receipt">Paczka odebrana!</p>
-      <p class="comment-receipt">Zrobiłeś to w czasie ${differenceTime} sekund! Czy możemy zrobić dla Ciebie coś jeszcze?</p>`;
-  modalComments.innerHTML = modalText;
+  timeDifference.innerHTML = `${differenceTime}`;
 };
 
 let data = [];
@@ -90,18 +71,16 @@ const goStepTwo = evt => {
           entrance.phone === phoneInput.value &&
           entrance.code === codeInput.value
       );
-
       if (!matchingEntrance) {
         if (data.some(entrance => entrance.phone === phoneInput.value)) {
           reject('Niepoprawny kod');
-        } else if (data.some(entrance => entrance.code === codeInput.value)) {
-          reject('Nie ma paczki zarejestrowanej na ten numer');
-        } else {
+        }
+        if (data.some(entrance => entrance.code === codeInput.value)) {
           reject('Nie ma paczki zarejestrowanej na ten numer');
         }
-      } else {
-        resolve();
+        reject('Nie ma paczki zarejestrowanej na ten numer');
       }
+      resolve();
     }, 1000);
   });
 
@@ -109,8 +88,6 @@ const goStepTwo = evt => {
     alert(error);
   });
 };
-
-form.addEventListener('submit', goStepTwo);
 
 const goStepZero = () => {
   modal.classList.add('is-hidden-modal');
@@ -124,5 +101,19 @@ const goStepOneOnceAgain = () => {
   doValidationForButton();
 };
 
-btnThatsAll.addEventListener('click', goStepZero);
-btnTakeAnother.addEventListener('click', goStepOneOnceAgain);
+const init = () => {
+  btnStart.addEventListener('click', goStepOne);
+
+  phoneInput.addEventListener('input', doValidationForButton);
+  codeInput.addEventListener('input', doValidationForButton);
+
+  phoneInput.addEventListener('blur', () => doValidationLength(phoneInput, 9));
+  codeInput.addEventListener('blur', () => doValidationLength(codeInput, 4));
+
+  form.addEventListener('submit', goStepTwo);
+
+  btnThatsAll.addEventListener('click', goStepZero);
+  btnTakeAnother.addEventListener('click', goStepOneOnceAgain);
+};
+
+init();
