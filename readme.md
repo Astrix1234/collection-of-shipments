@@ -1,4 +1,4 @@
-# Frontend Mentor - Newsletter sign-up form with success message
+# Collection of shipments
 
 ![Desktop preview](desktop-preview.jpg)
 
